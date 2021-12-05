@@ -1,6 +1,6 @@
 {
 	"name": "minossedsp",
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"description": "Minimal sIgnal path, Non-OverSampling, cuStom pipEline Digital Signal Processor",
 	"main": "index.js",
 	"scripts": {
@@ -8,7 +8,7 @@
 	},
 	"author": "carlito_s",
 	"license": "GPL 3.0",
-	"repository": "https://github.com/yourname/yourrepo",
+	"repository": "https://github.com/KarlitoswayXYZ/minossedsp",
 	"volumio_info": {
 		"prettyName": "Minosse DSP",
 		"icon": "fa-sliders",
@@ -25,7 +25,7 @@
 	},
 	"engines": {
 		"node": ">=14.15.4 <15.0.0",
-		"volumio": ">=3.150.0 <4.0.0"
+		"volumio": ">=3.163.0 <4.0.0"
 	},
 	"dependencies": {
 		"fs-extra": "^0.28.0",

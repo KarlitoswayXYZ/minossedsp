@@ -111,7 +111,8 @@ _copy() {
 _filters() {
 	
 	echo "========== Downloading demo filters from GitHub... =========="
-	git clone -b master --single-branch https://github.com/KarlitoswayXYZ/minosse-filters.git "$minosse_data_folder"filters/
+	#git clone -b master --single-branch https://github.com/KarlitoswayXYZ/minosse-filters.git "$minosse_data_folder"filters/
+	git clone -b master --depth 1 --single-branch https://github.com/KarlitoswayXYZ/minosse-filters.git "$minosse_data_folder"filters/
 	sudo rm -r -f "$minosse_data_folder"filters/.??*
 	#sudo chown -R "$VUSER":"$VGROUP" "$minosse_data_folder"
 	sudo chown -R "$VUSER":"$VGROUP" "$minosse_data_folder" > /dev/null 2>&1
