@@ -1,6 +1,6 @@
 {
 	"name": "minossedsp",
-	"version": "0.5.1",
+	"version": "0.5.2",
 	"description": "Minimal sIgnal path, Non-OverSampling, cuStom pipEline Digital Signal Processor",
 	"main": "index.js",
 	"scripts": {
