@@ -1,6 +1,6 @@
 {
 	"name": "minossedsp",
-	"version": "0.5.2",
+	"version": "0.5.3",
 	"description": "Minimal sIgnal path, Non-OverSampling, cuStom pipEline Digital Signal Processor",
 	"main": "index.js",
 	"scripts": {
@@ -25,7 +25,7 @@
 	},
 	"engines": {
 		"node": ">=14.15.4 <15.0.0",
-		"volumio": ">=3.163.0 <4.0.0"
+		"volumio": ">=3.165.0 <4.0.0"
 	},
 	"dependencies": {
 		"fs-extra": "^0.28.0",
