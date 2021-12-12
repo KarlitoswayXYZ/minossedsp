@@ -8,8 +8,6 @@ MDSP_BF_DIRS="/data/plugins/audio_interface/minossedsp/conf/mdsp-sys-dirs.sh"
 VUSER="volumio"
 VGROUP="volumio"
 
-HOMEDIR="/home/volumio/minossedsp"
-
 trap '_cleanup' EXIT
 trap '_rollback' ERR
 
@@ -18,7 +16,7 @@ _cleanup() {
 	set +e
 	
 	echo "========== Erasing installation files... =========="
-	sudo rm -r -f "$HOMEDIR"*
+	#sudo rm -r -f "$PWD"*
 	sudo rm -r -f "$minosse_plugin_folder"bin
 	sudo rm -r -f "$minosse_plugin_folder"brutefir
 	sudo rm -r -f "$minosse_plugin_folder"conf

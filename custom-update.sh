@@ -1,11 +1,13 @@
 #!/bin/bash -e
 
+IDSTR="MinosseDSP::custom-update.sh: "
+
 VUSER="volumio"
 VGROUP="volumio"
 
-INSTDIR="/tmp/minosse/"
+INSTDIR="/tmp/minossedsp/"
 BINDIR="/usr/local/bin/"
-NODEDIR="/data/plugins/audio_interface/minosse/"
+NODEDIR="/data/plugins/audio_interface/minossedsp/"
 
 _deps() {
 	
@@ -13,20 +15,16 @@ _deps() {
 	#DPKG_ARCH=`dpkg --print-architecture`
 	# Then use it to differentiate your install
 	
-	echo 'MinosseDSP::update.sh: ============ Installing Minosse dependencies... ============'
+	/bin/echo "$IDSTR""============ Installing Minosse dependencies... ============"
 	/usr/bin/sudo apt-get update
 	# Install the required packages via apt-get
-	/usr/bin/sudo apt-get -y install mc wget curl socat flex bison bc	\
-	    make build-essential libssl-dev zlib1g-dev libbz2-dev	\
-		libreadline-dev libsqlite3-dev libfftw3-dev libjack-dev	\
-		libasound2-dev --no-install-recommends
-		
-	#npm install compare-versions
+	/usr/bin/sudo apt-get -y install  --no-install-recommends
+	
 }
 
 _copy() {
 	
-	echo 'MinosseDSP::update.sh: ============ Copying files... ============'
+	/bin/echo "$IDSTR""============ Copying files... ============"
 	
 	### Copy core commands
 	/usr/bin/sudo cp -f "$INSTDIR"bin/mdsp-*.sh "$BINDIR"
