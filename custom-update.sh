@@ -76,14 +76,13 @@ then
 	
 	CTMPL='/data/INTERNAL/minossedsp/mdsp-bf-conf.json.tmpl'
 	current_version=$(/bin/cat "$CTMPL" | /usr/bin/jq -r '.current_version')
-	NEWVER=$(/usr/bin/jq '.version' /data/plugins/audio_interface/minossedsp/package.json)
-	TESTVER=$(/usr/bin/dpkg --compare-versions "$NEWVER" "gt" "$current_version")
-	if [ "$TESTVER" -eq "0" ]
+	MVER=$(/usr/bin/jq '.version' /data/plugins/audio_interface/minossedsp/package.json | /bin/sed 's#"##g')
+	if $(/usr/bin/dpkg --compare-versions "$MVER" "gt" "$current_version")
 	then
 		#_deps
 		_copy
 		_cleanup
-		RETVAL="$(/usr/bin/jq '.current_version = "'"$NEWVER"'"' "$CTMPL")" && echo "${RETVAL}" > "$CTMPL"
+		RETVAL="$(/usr/bin/jq '.current_version = "'"$MVER"'"' "$CTMPL")" && echo "${RETVAL}" > "$CTMPL"
 		/bin/echo '{"event":"pushmsg","data":{"type":"warning","content":"UPDATE_REBOOT","extra":""}}' > "$core_fifo"
 	else
 		/bin/sleep 10

@@ -182,7 +182,7 @@ _filters
 #_fftw
 
 CTMPL='/data/INTERNAL/minossedsp/mdsp-bf-conf.json.tmpl'
-MVER=$(/usr/bin/jq '.version' /data/plugins/audio_interface/minossedsp/package.json)
+MVER=$(/usr/bin/jq '.version' /data/plugins/audio_interface/minossedsp/package.json | /bin/sed 's#"##g')
 RETVAL="$(/usr/bin/jq '.current_version = "'"$MVER"'"' "$CTMPL")" && echo "${RETVAL}" > "$CTMPL"
 
 echo "================================ Installation finished ================================="
