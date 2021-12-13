@@ -17,7 +17,7 @@ _cleanup() {
 	
 	echo "========== Erasing installation files... =========="
 	#sudo rm -r -f "$PWD"*
-	sudo rm -r -f "$minosse_plugin_folder"bin
+	#sudo rm -r -f "$minosse_plugin_folder"bin
 	sudo rm -r -f "$minosse_plugin_folder"brutefir
 	sudo rm -r -f "$minosse_plugin_folder"conf
 	sudo rm -r -f "$minosse_plugin_folder"img
@@ -181,25 +181,11 @@ _filters
 #_brutefir
 #_fftw
 
-### Only for debugging!
-### In production, the following task will be performed during plugin activation and/or audio type change
-#"$minosse_bin_folder"mdsp-activate.sh "2.0"
+CTMPL='/data/INTERNAL/minossedsp/mdsp-bf-conf.json.tmpl'
+MVER=$(/usr/bin/jq '.version' /data/plugins/audio_interface/minossedsp/package.json)
+RETVAL="$(/usr/bin/jq '.current_version = "'"$MVER"'"' "$CTMPL")" && echo "${RETVAL}" > "$CTMPL"
 
-echo "
-
-
-"
 echo "================================ Installation finished ================================="
-echo "========== Go to Settings -> Plugins -> Installed Plugins to activate Minosse =========="
-#sleep 4
-
-#mdsp-voloveron.sh
-#mdsp-volopthid.sh
-#mdsp-mpdconfforce.sh
-#mdsp-enable-minosse.sh
 
 #requred to end the plugin install
 echo "plugininstallend"
-
-#echo '============ Rebooting now... ============'
-#sudo shutdown -r now

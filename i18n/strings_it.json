@@ -102,6 +102,7 @@
   "EQ_ERASE_DESC":"Rimuovi l'elenco delle cuffie disponibili.",
   "DLOAD_HPHONES_LIST":"Scaricamento lista delle cuffie disponibili in corso...",
   "GOTO_PAGE":"Vai a pagina ",
-  "ADD_PRESET":"Aggiungi configurazione"
+  "ADD_PRESET":"Aggiungi configurazione",
+  "UPDATE_REBOOT":"Una nuova versione del plugin Minosse DSP è stata appena installata, riavviare ora."
 }
 

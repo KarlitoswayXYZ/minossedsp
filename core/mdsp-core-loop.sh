@@ -33,6 +33,8 @@ do
 			"$minosse_bin_folder"mdsp-audiomonitor.sh "$ADATA"
 		elif [[ "$STRVAL2" != "" ]]
 		then
+		
+			"$minosse_bin_folder"mdsp-custom-update.sh &
 			
 			LEVENT=$(/bin/echo "$line" | /usr/bin/jq -r '.event')
 			#/bin/echo "$IDSTR""$LEVENT"

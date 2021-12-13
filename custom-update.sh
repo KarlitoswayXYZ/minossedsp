@@ -1,13 +1,37 @@
 #!/bin/bash -e
 
+### Load folder and file locations
+MDSP_BF_DIRS="/data/plugins/audio_interface/minossedsp/conf/mdsp-sys-dirs.sh"
+. "$MDSP_BF_DIRS"
+
 IDSTR="MinosseDSP::custom-update.sh: "
+LOCKDIR='/var/lock/mdsp-custom-update-lock'
 
 VUSER="volumio"
 VGROUP="volumio"
 
-INSTDIR="/tmp/minossedsp/"
-BINDIR="/usr/local/bin/"
-NODEDIR="/data/plugins/audio_interface/minossedsp/"
+trap '/usr/bin/sudo /bin/rm -v -r -f "$LOCKDIR"' EXIT
+
+_cleanup() {
+	
+	set +e
+	
+	echo "========== Erasing installation files... =========="
+	#/usr/bin/sudo /bin/rm -r -f "$PWD"*
+	#/usr/bin/sudo /bin/rm -r -f "$minosse_plugin_folder"bin
+	/usr/bin/sudo /bin/rm -r -f "$minosse_plugin_folder"brutefir
+	/usr/bin/sudo /bin/rm -r -f "$minosse_plugin_folder"conf
+	/usr/bin/sudo /bin/rm -r -f "$minosse_plugin_folder"img
+	/usr/bin/sudo /bin/rm -r -f "$minosse_plugin_folder"core
+	/usr/bin/sudo /bin/rm -r -f "$minosse_plugin_folder"debug
+	#/usr/bin/sudo /bin/rm -r -f "$minosse_plugin_folder"gui
+	
+	### Unwanted Git and Eclipse folders
+	/usr/bin/sudo /bin/rm -r -f "$minosse_plugin_folder"*git
+	/usr/bin/sudo /bin/rm -r -f "$minosse_plugin_folder"*project
+	/usr/bin/sudo /bin/rm -r -f "$minosse_plugin_folder"*settings
+
+}
 
 _deps() {
 	
@@ -27,27 +51,42 @@ _copy() {
 	/bin/echo "$IDSTR""============ Copying files... ============"
 	
 	### Copy core commands
-	/usr/bin/sudo cp -f "$INSTDIR"bin/mdsp-*.sh "$BINDIR"
-	/usr/bin/sudo cp -f "$INSTDIR"bin/mdsp-*.js "$BINDIR"
+	/usr/bin/sudo cp -f "$minosse_plugin_folder"brutefir/mdsp-*.sh "$minosse_bin_folder"
+	/usr/bin/sudo cp -f "$minosse_plugin_folder"core/mdsp-*.sh "$minosse_bin_folder"
+	/usr/bin/sudo cp -f "$minosse_plugin_folder"core/mdsp-*.js "$minosse_bin_folder"
+	/usr/bin/sudo cp -f "$minosse_plugin_folder"core/mdsp-*.pl "$minosse_bin_folder"
+	/usr/bin/sudo cp -f "$minosse_plugin_folder"debug/mdsp-*.sh "$minosse_bin_folder"
+	/usr/bin/sudo chmod +x "$minosse_bin_folder"mdsp-* > /dev/null 2>&1
 	
 	### mdsp-bf.service as a system service
-	/usr/bin/sudo cp -f "$INSTDIR"bin/mdsp-*.service /etc/systemd/system/
-	#/usr/bin/sudo systemctl enable mdsp-bf.service
-	#/usr/bin/sudo systemctl enable mdsp-mpd.service
+	/usr/bin/sudo cp -f "$minosse_plugin_folder"brutefir/mdsp-*.service /etc/systemd/system/
+	### mdsp-mpd.service as a system service
+	/usr/bin/sudo cp -f "$minosse_plugin_folder"core/mdsp-*.service /etc/systemd/system/
 	
-	### Copy Node files
-	/usr/bin/sudo cp -f "$INSTDIR"/i18n/*.* "$NODEDIR"/i18n/
-	/usr/bin/sudo cp -f "$INSTDIR"/*.* "$NODEDIR"
-	/usr/bin/sudo chown -R "$VUSER":"$VGROUP" "$NODEDIR"
-	
-	### Unwanted Git and Eclipse folders
-	sudo rm -r -f "$NODEDIR"*git
-	sudo rm -r -f "$NODEDIR"*project
-	sudo rm -r -f "$NODEDIR"*settings
-	
+	### Copy configuration files
+	/usr/bin/sudo cp -r -f "$minosse_plugin_folder"img/ "$minosse_data_folder"
+	/usr/bin/sudo cp -f "$minosse_plugin_folder"conf/mdsp-* "$minosse_data_folder"
+	/usr/bin/sudo cp -f "$minosse_plugin_folder"conf/override.conf "$minosse_data_folder"
+	/usr/bin/sudo chown -R "$VUSER":"$VGROUP" "$minosse_data_folder" > /dev/null 2>&1
+		
 }
 
-#_deps
-_copy
-
-/bin/sleep 3
+if /bin/mkdir "$LOCKDIR"
+then
+	
+	CTMPL='/data/INTERNAL/minossedsp/mdsp-bf-conf.json.tmpl'
+	current_version=$(/bin/cat "$CTMPL" | /usr/bin/jq -r '.current_version')
+	NEWVER=$(/usr/bin/jq '.version' /data/plugins/audio_interface/minossedsp/package.json)
+	TESTVER=$(/usr/bin/dpkg --compare-versions "$NEWVER" "gt" "$current_version")
+	if [ "$TESTVER" -eq "0" ]
+	then
+		#_deps
+		_copy
+		_cleanup
+		RETVAL="$(/usr/bin/jq '.current_version = "'"$NEWVER"'"' "$CTMPL")" && echo "${RETVAL}" > "$CTMPL"
+		/bin/echo '{"event":"pushmsg","data":{"type":"warning","content":"UPDATE_REBOOT","extra":""}}' > "$core_fifo"
+	else
+		/bin/sleep 10
+	fi
+	
+fi
