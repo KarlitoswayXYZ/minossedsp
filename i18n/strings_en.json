@@ -102,6 +102,7 @@
   "EQ_ERASE_DESC":"Erase the list of available headphones.",
   "DLOAD_HPHONES_LIST":"Downloading the list of available headphones, please wait...",
   "GOTO_PAGE":"Go to page ",
-  "ADD_PRESET":"Add preset"
+  "ADD_PRESET":"Add preset",
+  "UPDATE_REBOOT":"A new version of Minosse DSP plugin has just been installed. Reboot now."
 }
 

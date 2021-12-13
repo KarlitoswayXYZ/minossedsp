@@ -427,9 +427,29 @@ minossedsp.prototype.monitorPushMsg = async function(eventName, filename) {
 			//	  {"type":"warning","content":"RECONFIGURING_AUDIO_NO_PCM","extra":""}
 			var msgfile = fs.readFileSync(pushMsgPath + pushMsgFile, {encoding: 'utf8'});
 			var msgjson = JSON.parse(msgfile);
-			if (typeof msgjson.extra === 'undefined') {
-				console.log(IDSTR + self.getI18nString(msgjson.content));
-				self.commandRouter.pushToastMessage(msgjson.type, self.getI18nString(msgjson.content));
+			if ((msgjson.extra == undefined) || (msgjson.extra == 'undefined') || (msgjson.extra == "")) {
+				if (msgjson.content == 'UPDATE_REBOOT') {
+					
+					var updateReboot = {
+						title: self.getI18nString('WARNING'),
+						message: self.getI18nString('UPDATE_REBOOT'),
+						size: 'lg',
+						buttons: [
+							{
+								name: self.getI18nString('REBOOT'),
+								class: 'btn btn-info',
+								emit: 'reboot',
+      							payload: ''
+							}
+						]
+					};
+					console.log(IDSTR + self.getI18nString('UPDATE_REBOOT'));
+				    self.commandRouter.broadcastMessage('openModal', updateReboot);
+					
+				} else {
+					console.log(IDSTR + self.getI18nString(msgjson.content));
+					self.commandRouter.pushToastMessage(msgjson.type, self.getI18nString(msgjson.content));
+				}
 			} else {
 				console.log(IDSTR + self.getI18nString(msgjson.content) + msgjson.extra);
 				self.commandRouter.pushToastMessage(msgjson.type, self.getI18nString(msgjson.content) + msgjson.extra);
