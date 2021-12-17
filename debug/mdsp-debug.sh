@@ -59,7 +59,13 @@ _cpushield(){
 	/bin/echo "================================================================================="
 	/bin/echo "============================== CPU SHIELD STATUS ================================"
 	/bin/echo "================================================================================="
-	/usr/bin/cset shield --shield -v
+	NCPU=$(( $(/usr/bin/nproc --all)-1 ))
+	if [ $NCPU -gt 0 ]
+	then
+		/usr/bin/cset shield --shield -v
+	else
+		/bin/echo "Single CPU core detected, CPU shield not activable."
+	fi
 }
 
 _brutefir(){
