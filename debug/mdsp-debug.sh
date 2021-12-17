@@ -54,6 +54,14 @@ _eq_preset(){
 	/bin/echo "................................................................................."
 }
 
+_cpushield(){
+	/bin/echo ""
+	/bin/echo "================================================================================="
+	/bin/echo "============================== CPU SHIELD STATUS ================================"
+	/bin/echo "================================================================================="
+	/usr/bin/cset shield --shield -v
+}
+
 _brutefir(){
 	
 	DIRNAME="/data/INTERNAL/minosse/"
@@ -86,6 +94,7 @@ _pstree
 _ps
 _minosse_persistence
 _eq_preset
+_cpushield
 _mpd
 _brutefir
 
