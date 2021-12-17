@@ -52,3 +52,11 @@ RETVAL="$(/usr/bin/jq '.out_device_number = "'"$ADNUM"'"' "$MDSP_BF_CONF")" && e
 #	"$minosse_bin_folder"mdsp-chkchannels.sh "2.0"
 #fi
 #"$minosse_bin_folder"mdsp-chkchannels.sh "$audio_type"
+
+### Create CPU shield
+NCPU=$(( $(/usr/bin/nproc --all)-1 ))
+if [ $NCPU -gt 0 ]
+then
+	/usr/bin/cset shield -c "$NCPU"
+	/usr/bin/cset shield -k on
+fi

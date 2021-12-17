@@ -29,6 +29,13 @@ pid_gdbus=$(/bin/cat "$MDSP_BF_CONF" | /usr/bin/jq -r '.pid_gdbus')
 /bin/kill "$pid_gdbus"
 #/usr/bin/killall gdbus
 
+### Remove CPU shield
+NCPU=$(( $(/usr/bin/nproc --all)-1 ))
+if [ $NCPU -gt 0 ]
+then
+	/usr/bin/cset shield --reset
+fi
+
 /bin/sleep 3
 /usr/bin/sudo /bin/systemctl stop mdsp-core.service > /dev/null 2>&1
 

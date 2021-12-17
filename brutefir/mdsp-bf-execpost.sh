@@ -19,8 +19,20 @@ do
 	if [[ -S "$bf_client_connection" ]]
 	then
 		/bin/chown "$VUSER":"$VGROUP" "$bf_client_connection"
+		
+		### Add Brutefir processes to CPU shield
+		NCPU=$(( $(/usr/bin/nproc --all)-1 ))
+		if [ $NCPU -gt 0 ]
+		then
+			NBRU=$(/bin/pidof -x brutefir | /bin/sed 's/ /,/g')
+			/usr/bin/cset shield -s -p $NBRU
+			NBRE=$(/bin/pidof -x brutefir.real | /bin/sed 's/ /,/g')
+			/usr/bin/cset shield -s -p $NBRE
+		fi
+		
 		exit 0
 		#break
+		
 	fi
 	(( COUNT++ ))
 	/bin/sleep 0.5

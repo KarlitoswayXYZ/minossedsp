@@ -79,7 +79,7 @@ _deps() {
 	echo '============ Installing Minosse dependencies... ============'
 	sudo apt-get -q update
 	# Install the required packages via apt-get
-	sudo apt-get -y -q install mc wget curl socat bc brutefir libglib2.0-bin --no-install-recommends
+	sudo apt-get -y -q install mc wget curl socat bc brutefir libglib2.0-bin cpuset --no-install-recommends
 	
 }
 
