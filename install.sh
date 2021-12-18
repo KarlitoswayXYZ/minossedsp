@@ -149,7 +149,7 @@ _filters_tar() {
 		tar -xzf "$minosse_data_folder""$TARN" -C "$minosse_data_folder"
 		rm -f "$minosse_data_folder""$TARN"
 		mv "$minosse_data_folder"minosse-filters-* "$minosse_data_folder"filters
-		#sudo chown -R "$VUSER":"$VGROUP" "$minosse_data_folder" > /dev/null 2>&1
+		sudo chown -R "$VUSER":"$VGROUP" "$minosse_data_folder" > /dev/null 2>&1
 	fi
 }
 
