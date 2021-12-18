@@ -62,6 +62,8 @@ _cpushield(){
 	NCPU=$(( $(/usr/bin/nproc --all)-1 ))
 	if [ $NCPU -gt 0 ]
 	then
+		/usr/bin/cset shield
+		echo ""
 		/usr/bin/cset shield --shield -v
 	else
 		/bin/echo "Single CPU core detected, CPU shield not activable."
