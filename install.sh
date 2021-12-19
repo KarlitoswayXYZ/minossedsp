@@ -13,7 +13,7 @@ core_fifo=$(/bin/cat "$MDSP_BF_CONF" | /usr/bin/jq -r '.core_fifo')
 VUSER="volumio"
 VGROUP="volumio"
 
-FILERSURL="https://github.com/KarlitoswayXYZ/minosse-filters/archive/refs/tags/v0.0.1.tar.gz"
+FILERSURL="https://github.com/KarlitoswayXYZ/minosse-filters/archive/refs/tags/v0.0.2.tar.gz"
 
 ISUPDATE="true"
 
